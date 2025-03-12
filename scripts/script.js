@@ -456,17 +456,18 @@ function generateOrderQRCode() {
 
   // Prepare order data
   const orderData = {
+    type: "order", // Add a type field
     items: cart.map((item) => ({
       id: item.id,
       name: item.name,
       quantity: item.quantity,
       price: item.price,
     })),
-    subtotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    tax: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 0.18, // 18% GST
+    subtotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0), // Calculate subtotal
+    tax: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 0.18, // Calculate tax (18% GST)
     total:
-      cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 1.18, // Subtotal + GST
-    timestamp: new Date().toLocaleString(),
+      cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 1.18, // Calculate total (subtotal + tax)
+    timestamp: new Date().toLocaleString(), // Add timestamp
   };
 
   // Convert order data to JSON string
