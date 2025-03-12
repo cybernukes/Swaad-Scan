@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waiter's Order Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script type="module" src="/auth/auth-guard.js"></script>
+    <link rel="stylesheet" href="/styles/waiter.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Waiter's Order Management</h1>
+      <p class="scan-subtitle">
+        Manage orders, scan QR codes, and generate bills
+      </p>
+    </header>
+
+    <div class="search-container">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Search for food items..."
+      />
+      <button class="search-btn" id="searchBtn">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+
+    <div class="app-container">
+      <div class="left-panel">
+        <div class="table-selector">
+          <h2>Select Table</h2>
+          <div class="table-buttons" id="tableButtons">
+            <button class="table-btn active" data-table="1">Table 1</button>
+            <button class="table-btn" data-table="2">Table 2</button>
+            <button class="table-btn" data-table="3">Table 3</button>
+            <button class="table-btn" data-table="4">Table 4</button>
+            <button class="table-btn" data-table="5">Table 5</button>
+            <button class="table-btn" data-table="6">Table 6</button>
+            <button class="table-btn" data-table="7">Table 7</button>
+            <button class="table-btn" data-table="8">Table 8</button>
+          </div>
+        </div>
+
+        <button id="scanQrBtn" class="camera-btn">
+          <i class="fas fa-qrcode"></i> Scan QR Code
+        </button>
+
+        <div class="scanner-container hidden" id="scannerContainer">
+          <div class="scanner-overlay">
+            <video id="scanner" autoplay playsinline></video>
+            <div class="scanner-frame">
+              <div class="scanner-corners corner-tl"></div>
+              <div class="scanner-corners corner-tr"></div>
+              <div class="scanner-corners corner-bl"></div>
+              <div class="scanner-corners corner-br"></div>
+              <div class="scanning-animation"></div>
+            </div>
+          </div>
+          <button id="cameraToggle" class="camera-btn">
+            <i class="fas fa-stop"></i> Stop Scanning
+          </button>
+        </div>
+
+        <div class="menu-container">
+          <h2>Menu Items</h2>
+          <div id="menuItems">
+            <div class="no-items">Searching for menu items...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="order-section" id="orderSection">
+          <h2>
+            Current Order
+            <span class="table-indicator" id="tableIndicator">Table 1</span>
+          </h2>
+          <div id="orderItems">
+            <div class="no-items">No items added to this order yet</div>
+          </div>
+          <div class="totals">
+            <div class="total-row">
+              <span>Subtotal:</span>
+              <span id="subtotal">₹0.00</span>
+            </div>
+            <div class="total-row">
+              <span>GST (5%):</span>
+              <span id="tax">₹0.00</span>
+            </div>
+            <div class="total-row grand-total">
+              <span>Total Amount:</span>
+              <span id="total">₹0.00</span>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="bill-btn" id="generateBillBtn">
+              <i class="fas fa-receipt"></i> Generate Bill
+            </button>
+            <button class="clear-btn" id="clearOrderBtn">
+              <i class="fas fa-trash"></i> Clear Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/scripts/waiter.js"></script>
+  </body>
+</html>
