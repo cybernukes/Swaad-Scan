@@ -50,8 +50,9 @@ function updateCategoryTabs(categoriesList) {
   categories = categoriesList;
   const tabsContainer = document.getElementById("category-tabs");
 
-  // Clear existing tabs and add "All Items" with onclick handler
-  tabsContainer.innerHTML = '<button class="nav-tab active" data-category="all" onclick="filterMenuByCategory(\'all\')">All Items</button>';
+  // Clear existing tabs except "All Items"
+  tabsContainer.innerHTML =
+    '<button class="nav-tab active" data-category="all">All Items</button>';
 
   categoriesList.forEach((category) => {
     // Add tab
@@ -487,33 +488,4 @@ function init() {
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
   init();
-  
-  // Set up search functionality
-  document.getElementById("search-input").addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-      searchMenu(event);
-    }
-  });
-  
-  document.getElementById("search-button").addEventListener("click", function() {
-    searchMenu();
-  });
-  
-  // Set up cart toggle
-  document.getElementById("cart-toggle").addEventListener("click", function() {
-    toggleCart();
-  });
-  
-  // Close cart when clicking outside
-  document.addEventListener("click", function(event) {
-    const cart = document.getElementById("cart");
-    const cartToggle = document.getElementById("cart-toggle");
-    
-    if (!cart.contains(event.target) && event.target !== cartToggle) {
-      cart.classList.remove("active");
-    }
-  });
-  
-  // Initialize empty cart
-  updateCartUI();
 });
