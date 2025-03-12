@@ -332,7 +332,7 @@ function generateBill() {
     subtotal += item.price * item.quantity;
   });
 
-  const tax = subtotal * 0.05;
+  const tax = subtotal * 0.05; // 5% tax
   const total = subtotal + tax;
 
   // Create a printable bill
@@ -542,6 +542,40 @@ function generateBill() {
       // printWindow.close();
     }, 500);
   };
+
+  // Send bill to WhatsApp
+  sendBillToWhatsApp(currentOrder, subtotal, tax, total, currentTable);
+}
+
+// Function to send bill to WhatsApp
+function sendBillToWhatsApp(order, subtotal, tax, total, tableNumber) {
+  // Prepare the bill message
+  let billMessage = `*Bill for Table ${tableNumber}*\n\n`;
+  billMessage += "--------------------------------\n";
+
+  order.forEach((item) => {
+    billMessage += `${item.name} - ₹${item.price.toFixed(2)} × ${
+      item.quantity
+    } = ₹${(item.price * item.quantity).toFixed(2)}\n`;
+  });
+
+  billMessage += "--------------------------------\n";
+  billMessage += `Subtotal: ₹${subtotal.toFixed(2)}\n`;
+  billMessage += `GST (5%): ₹${tax.toFixed(2)}\n`;
+  billMessage += `*Total Amount: ₹${total.toFixed(2)}*\n\n`;
+  billMessage += "Thank you for dining with us! 🍽️";
+
+  // Encode the message for URL
+  const encodedMessage = encodeURIComponent(billMessage);
+
+  // Replace with your restaurant's WhatsApp number
+  const whatsappNumber = "911234567890"; // Example: 91 for India, followed by the number
+
+  // Create the WhatsApp URL
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+  // Open the WhatsApp link in a new tab
+  window.open(whatsappUrl, "_blank");
 }
 
 // QR Code Scanner
