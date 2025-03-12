@@ -50,9 +50,8 @@ function updateCategoryTabs(categoriesList) {
   categories = categoriesList;
   const tabsContainer = document.getElementById("category-tabs");
 
-  // Clear existing tabs except "All Items"
-  tabsContainer.innerHTML =
-    '<button class="nav-tab active" data-category="all">All Items</button>';
+  // Clear existing tabs and add "All Items" with onclick handler
+  tabsContainer.innerHTML = '<button class="nav-tab active" data-category="all" onclick="filterMenuByCategory(\'all\')">All Items</button>';
 
   categoriesList.forEach((category) => {
     // Add tab
@@ -112,6 +111,10 @@ function filterMenuByCategory(categoryId) {
 
   // Set current category
   currentCategory = categoryId;
+  
+  // Reset search input when changing categories
+  document.getElementById("search-input").value = "";
+  isSearchActive = false;
 
   // If "All Items" is selected, reset filteredItems to allMenuItems
   if (currentCategory === "all") {
@@ -129,8 +132,8 @@ function filterMenuByCategory(categoryId) {
 
 // Function to search menu items
 function searchMenu(event) {
-  // If Enter key pressed or button clicked
-  if (event && event.key && event.key !== "Enter") {
+  // If Enter key pressed or button clicked or input changes
+  if (event && event.key && event.key !== "Enter" && event.type !== "input") {
     return;
   }
 
@@ -142,22 +145,44 @@ function searchMenu(event) {
   if (searchTerm === "") {
     // If search cleared, revert to category view
     isSearchActive = false;
+    
+    // Make sure we show the correct items based on current category
+    if (currentCategory === "all") {
+      filteredItems = allMenuItems;
+    } else {
+      filteredItems = allMenuItems.filter(
+        (item) => item.categoryId === currentCategory
+      );
+    }
+    
     displayMenuItems();
     return;
   }
 
   isSearchActive = true;
 
-  // Filter items by search term
-  filteredItems = allMenuItems.filter((item) => {
-    return (
-      item.name.toLowerCase().includes(searchTerm) ||
-      (item.description && item.description.toLowerCase().includes(searchTerm))
-    );
-  });
+  // Filter items by search term - if in "all" show everything matching search,
+  // otherwise filter by both category and search term
+  if (currentCategory === "all") {
+    filteredItems = allMenuItems.filter((item) => {
+      return (
+        item.name.toLowerCase().includes(searchTerm) ||
+        (item.description && item.description.toLowerCase().includes(searchTerm))
+      );
+    });
+  } else {
+    // Filter by both category and search term
+    filteredItems = allMenuItems.filter((item) => {
+      return (
+        item.categoryId === currentCategory &&
+        (item.name.toLowerCase().includes(searchTerm) ||
+         (item.description && item.description.toLowerCase().includes(searchTerm)))
+      );
+    });
+  }
 
   // Display search results
-  displayMenuItems(true);
+  displayMenuItems();
 }
 
 // Function to display menu items based on current category or search
@@ -166,15 +191,25 @@ function displayMenuItems() {
   menuList.innerHTML = ""; // Clear the current menu
 
   // Determine which items to display
-  const itemsToDisplay =
-    currentCategory === "all" ? allMenuItems : filteredItems;
+  let itemsToDisplay = [];
+  
+  if (isSearchActive) {
+    // When search is active, show filtered items
+    itemsToDisplay = filteredItems;
+  } else if (currentCategory === "all") {
+    // When no search and showing all items
+    itemsToDisplay = allMenuItems;
+  } else {
+    // When no search and showing a specific category
+    itemsToDisplay = filteredItems;
+  }
 
   // Check if there are items to display
   if (itemsToDisplay.length === 0) {
     menuList.innerHTML = `
       <div class="no-results">
         <h3>No items found</h3>
-        <p>There are no items in this category yet.</p>
+        <p>${isSearchActive ? 'No matching items found. Try a different search term.' : 'There are no items in this category yet.'}</p>
       </div>
     `;
     return;
@@ -488,4 +523,41 @@ function init() {
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
   init();
+  
+  // Set up search functionality
+  const searchInput = document.getElementById("search-input");
+  
+  // Real-time search as you type
+  searchInput.addEventListener("input", function(event) {
+    searchMenu(event);
+  });
+  
+  // Also keep the Enter key functionality
+  searchInput.addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+      searchMenu(event);
+    }
+  });
+  
+  document.getElementById("search-button").addEventListener("click", function() {
+    searchMenu();
+  });
+  
+  // Set up cart toggle
+  document.getElementById("cart-toggle").addEventListener("click", function() {
+    toggleCart();
+  });
+  
+  // Close cart when clicking outside
+  document.addEventListener("click", function(event) {
+    const cart = document.getElementById("cart");
+    const cartToggle = document.getElementById("cart-toggle");
+    
+    if (!cart.contains(event.target) && event.target !== cartToggle) {
+      cart.classList.remove("active");
+    }
+  });
+  
+  // Initialize empty cart
+  updateCartUI();
 });
