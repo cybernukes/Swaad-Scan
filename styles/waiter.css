@@ -1,0 +1,523 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #1a73e8;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.scan-subtitle {
+  color: #5f6368;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.app-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.left-panel {
+  flex: 1;
+  min-width: 300px;
+}
+
+.right-panel {
+  flex: 2;
+  min-width: 300px;
+}
+
+.search-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-btn {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #0d62d1;
+}
+
+.table-selector {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.table-selector h2 {
+  margin-bottom: 15px;
+  color: #1a73e8;
+  font-size: 18px;
+}
+
+.table-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.table-btn {
+  background-color: #f1f3f4;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.table-btn:hover {
+  background-color: #e8eaed;
+}
+
+.table-btn.active {
+  background-color: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+
+.scanner-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#scanner {
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border: 2px solid #e0e0e0;
+}
+
+.scanner-overlay {
+  position: relative;
+  display: inline-block;
+}
+
+.scanner-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #1a73e8;
+  border-radius: 8px;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.scanner-corners {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #1a73e8;
+  border-style: solid;
+  border-width: 4px;
+}
+
+.corner-tl {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 4px 0 0 0;
+}
+
+.corner-tr {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+  border-radius: 0 4px 0 0;
+}
+
+.corner-bl {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+  border-radius: 0 0 0 4px;
+}
+
+.corner-br {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 4px 0;
+}
+
+.scanning-animation {
+  position: absolute;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #1a73e8, transparent);
+  top: 50%;
+  left: 10%;
+  animation: scan 2s infinite;
+}
+
+@keyframes scan {
+  0% {
+    top: 20%;
+  }
+  50% {
+    top: 80%;
+  }
+  100% {
+    top: 20%;
+  }
+}
+
+.camera-btn {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 200px;
+  margin: 15px auto;
+}
+
+.camera-btn i {
+  margin-right: 8px;
+}
+
+.camera-btn:hover {
+  background-color: #0d62d1;
+}
+
+.menu-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.menu-container h2 {
+  color: #1a73e8;
+  font-size: 18px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: #f8f9fa;
+}
+
+.menu-item-details {
+  flex: 1;
+}
+
+.menu-item-name {
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-item-price {
+  color: #5f6368;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.add-item-btn {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-item-btn:hover {
+  background-color: #0d62d1;
+}
+
+.order-section {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-section h2 {
+  color: #1a73e8;
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-indicator {
+  background-color: #1a73e8;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.order-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-item-details {
+  flex: 1;
+}
+
+.order-item-name {
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.veg-indicator {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+.veg {
+  border-color: green;
+}
+
+.veg::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 2px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.non-veg {
+  border-color: red;
+}
+
+.non-veg::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 2px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.order-item-price {
+  color: #5f6368;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  background-color: #f1f3f4;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.qty-btn:hover {
+  background-color: #e8eaed;
+}
+
+.remove-item {
+  color: #d93025;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.remove-item:hover {
+  color: #a50e0e;
+}
+
+.totals {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.grand-total {
+  font-weight: bold;
+  color: #1a73e8;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.bill-btn {
+  flex: 1;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bill-btn:hover {
+  background-color: #0d62d1;
+}
+
+.clear-btn {
+  flex: 1;
+  background-color: #f1f3f4;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.clear-btn:hover {
+  background-color: #e8eaed;
+}
+
+.no-items {
+  text-align: center;
+  padding: 30px 0;
+  color: #5f6368;
+  font-size: 16px;
+}
+
+/* Hide the scanner by default */
+.scanner-container.hidden {
+  display: none;
+}
+
+/* Print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-section,
+  .print-section * {
+    visibility: visible;
+  }
+  .print-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .action-buttons,
+  .remove-item,
+  .qty-btn {
+    display: none !important;
+  }
+}
