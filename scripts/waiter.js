@@ -614,28 +614,39 @@ function scanQRCode() {
 
 function handleQRCode(data) {
   try {
-    // Assuming QR code data is in JSON format
+    // Parse the QR code data (assuming it's in JSON format)
     const qrData = JSON.parse(data);
 
-    if (qrData.type === "menu-item") {
-      // Add item to order
-      const item = allMenuItems.find((item) => item.id === qrData.id);
+    // Check if the QR code contains order data
+    if (qrData.type === "order") {
+      // Clear the current order for the selected table
+      tableOrders[currentTable] = [];
 
-      if (item) {
-        addItemToOrder(item);
-        alert(`Added ${item.name} to the order.`);
-      } else {
-        alert("Menu item not found. Try refreshing the page.");
-      }
-    } else if (qrData.type === "table") {
-      // Switch to table
-      switchTable(qrData.table);
-      alert(`Switched to Table ${qrData.table}`);
+      // Add items from the QR code to the current table's order
+      qrData.items.forEach((item) => {
+        const menuItem = allMenuItems.find((menuItem) => menuItem.id === item.id);
+        if (menuItem) {
+          // Add the item to the order with the correct quantity
+          tableOrders[currentTable].push({
+            id: menuItem.id,
+            name: menuItem.name,
+            price: menuItem.price,
+            isVeg: menuItem.isVeg,
+            quantity: item.quantity,
+          });
+        }
+      });
+
+      // Update the order display
+      updateOrderDisplay();
+
+      // Notify the waiter
+      alert(`Order from QR code has been added to Table ${currentTable}.`);
     } else {
-      alert("Unknown QR code format");
+      alert("Invalid QR code format. Please scan a valid order QR code.");
     }
   } catch (error) {
     console.error("Error processing QR code:", error);
-    alert("Invalid QR code format");
+    alert("Invalid QR code format. Please scan a valid order QR code.");
   }
 }
