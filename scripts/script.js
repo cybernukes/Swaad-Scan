@@ -51,7 +51,8 @@ function updateCategoryTabs(categoriesList) {
   const tabsContainer = document.getElementById("category-tabs");
 
   // Clear existing tabs and add "All Items" with onclick handler
-  tabsContainer.innerHTML = '<button class="nav-tab active" data-category="all" onclick="filterMenuByCategory(\'all\')">All Items</button>';
+  tabsContainer.innerHTML =
+    '<button class="nav-tab active" data-category="all" onclick="filterMenuByCategory(\'all\')">All Items</button>';
 
   categoriesList.forEach((category) => {
     // Add tab
@@ -111,7 +112,7 @@ function filterMenuByCategory(categoryId) {
 
   // Set current category
   currentCategory = categoryId;
-  
+
   // Reset search input when changing categories
   document.getElementById("search-input").value = "";
   isSearchActive = false;
@@ -145,7 +146,7 @@ function searchMenu(event) {
   if (searchTerm === "") {
     // If search cleared, revert to category view
     isSearchActive = false;
-    
+
     // Make sure we show the correct items based on current category
     if (currentCategory === "all") {
       filteredItems = allMenuItems;
@@ -154,7 +155,7 @@ function searchMenu(event) {
         (item) => item.categoryId === currentCategory
       );
     }
-    
+
     displayMenuItems();
     return;
   }
@@ -167,7 +168,8 @@ function searchMenu(event) {
     filteredItems = allMenuItems.filter((item) => {
       return (
         item.name.toLowerCase().includes(searchTerm) ||
-        (item.description && item.description.toLowerCase().includes(searchTerm))
+        (item.description &&
+          item.description.toLowerCase().includes(searchTerm))
       );
     });
   } else {
@@ -176,7 +178,8 @@ function searchMenu(event) {
       return (
         item.categoryId === currentCategory &&
         (item.name.toLowerCase().includes(searchTerm) ||
-         (item.description && item.description.toLowerCase().includes(searchTerm)))
+          (item.description &&
+            item.description.toLowerCase().includes(searchTerm)))
       );
     });
   }
@@ -192,7 +195,7 @@ function displayMenuItems() {
 
   // Determine which items to display
   let itemsToDisplay = [];
-  
+
   if (isSearchActive) {
     // When search is active, show filtered items
     itemsToDisplay = filteredItems;
@@ -209,7 +212,11 @@ function displayMenuItems() {
     menuList.innerHTML = `
       <div class="no-results">
         <h3>No items found</h3>
-        <p>${isSearchActive ? 'No matching items found. Try a different search term.' : 'There are no items in this category yet.'}</p>
+        <p>${
+          isSearchActive
+            ? "No matching items found. Try a different search term."
+            : "There are no items in this category yet."
+        }</p>
       </div>
     `;
     return;
@@ -523,41 +530,43 @@ function init() {
 // Initialize the application
 document.addEventListener("DOMContentLoaded", function () {
   init();
-  
+
   // Set up search functionality
   const searchInput = document.getElementById("search-input");
-  
+
   // Real-time search as you type
-  searchInput.addEventListener("input", function(event) {
+  searchInput.addEventListener("input", function (event) {
     searchMenu(event);
   });
-  
+
   // Also keep the Enter key functionality
-  searchInput.addEventListener("keyup", function(event) {
+  searchInput.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
       searchMenu(event);
     }
   });
-  
-  document.getElementById("search-button").addEventListener("click", function() {
-    searchMenu();
-  });
-  
+
+  document
+    .getElementById("search-button")
+    .addEventListener("click", function () {
+      searchMenu();
+    });
+
   // Set up cart toggle
-  document.getElementById("cart-toggle").addEventListener("click", function() {
+  document.getElementById("cart-toggle").addEventListener("click", function () {
     toggleCart();
   });
-  
+
   // Close cart when clicking outside
-  document.addEventListener("click", function(event) {
+  document.addEventListener("click", function (event) {
     const cart = document.getElementById("cart");
     const cartToggle = document.getElementById("cart-toggle");
-    
+
     if (!cart.contains(event.target) && event.target !== cartToggle) {
       cart.classList.remove("active");
     }
   });
-  
+
   // Initialize empty cart
   updateCartUI();
 });
