@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Swaad Scan</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script type="module" src="/auth/auth-guard.js"></script>
+    <link rel="stylesheet" href="/styles/admin_styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <span class="logo-icon">🍔</span>
+        <h1>Swaad Scan</h1>
+      </div>
+      <button class="cart-btn" onclick="toggleCart()">
+        <span class="cart-icon">🛒</span>
+        <span>Cart</span>
+        <span class="cart-count" id="cart-badge">0</span>
+      </button>
+    </header>
+
+    <div class="search-container">
+      <div class="search-bar">
+        <input
+          type="text"
+          class="search-input"
+          id="search-input"
+          placeholder="Search for food items..."
+          onkeyup="searchMenu(event)"
+        />
+        <button class="search-button" onclick="searchMenu()">Search</button>
+      </div>
+    </div>
+
+    <div class="nav-tabs" id="category-tabs">
+      <!-- Categories will be loaded dynamically -->
+      <button class="nav-tab active" data-category="all">All Items</button>
+    </div>
+
+    <div id="menu-list" class="menu-container">
+      <!-- Menu items will be loaded here -->
+      <div class="loader"></div>
+    </div>
+
+    <div id="cart" class="cart-container">
+      <h2>
+        <span>Your Cart</span>
+        <button class="cart-close" onclick="toggleCart()">×</button>
+      </h2>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cart-total-amount">₹0</span>
+        </div>
+        <button class="generate-qr" onclick="generateQRCode()">
+          Generate QR Code
+        </button>
+        <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        <div id="qrcode"></div>
+      </div>
+    </div>
+
+    <button class="admin-toggle" onclick="toggleAdmin()">⚙️</button>
+
+    <div id="admin-panel" class="admin-panel">
+      <h2>
+        <span>Admin Panel</span>
+        <button class="admin-close" onclick="toggleAdmin()">×</button>
+      </h2>
+
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="switchAdminTab('menu-tab')">
+          Menu Items
+        </div>
+        <div class="admin-tab" onclick="switchAdminTab('category-tab')">
+          Categories
+        </div>
+      </div>
+
+      <div id="menu-tab" class="admin-content active">
+        <form id="add-item-form">
+          <h3>Add New Menu Item</h3>
+          <input type="text" id="item-name" placeholder="Item Name" required />
+          <textarea
+            id="item-description"
+            placeholder="Short Description (Optional)"
+            rows="2"
+          ></textarea>
+          <input type="number" id="item-price" placeholder="Price" required />
+          <select id="item-category" required>
+            <option value="">Select Category</option>
+          </select>
+          <input
+            type="text"
+            id="item-image"
+            placeholder="Image URL (or leave empty for placeholder)"
+            value="https://www.upay.org.in/wp-content/uploads/2020/03/131-1314271_food-icon-food-court-icon-png.jpg"
+          />
+          <button type="submit">Add Item</button>
+        </form>
+        <h3>Menu Items</h3>
+        <div id="admin-item-list" class="item-list">
+          <div class="loader"></div>
+        </div>
+      </div>
+
+      <div id="category-tab" class="admin-content">
+        <form id="add-category-form">
+          <h3>Add New Category</h3>
+          <input
+            type="text"
+            id="category-name"
+            placeholder="Category Name"
+            required
+          />
+          <button type="submit">Add Category</button>
+        </form>
+        <h3>Categories</h3>
+        <div id="admin-category-list" class="item-list">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notification" id="notification">Item added to cart!</div>
+
+    <script src="/scripts/admin.js"></script>
+  </body>
+</html>
