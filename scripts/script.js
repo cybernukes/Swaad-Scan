@@ -454,23 +454,18 @@ function generateOrderQRCode() {
     return;
   }
 
-  // Prepare order data
+  // Prepare simplified order data
   const orderData = {
     type: "order", // Add a type field
     items: cart.map((item) => ({
       id: item.id,
-      name: item.name,
       quantity: item.quantity,
-      price: item.price,
     })),
-    subtotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0), // Calculate subtotal
-    tax: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 0.18, // Calculate tax (18% GST)
-    total:
-      cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 1.18, // Calculate total (subtotal + tax)
-    timestamp: new Date().toLocaleString(), // Add timestamp
+    total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) * 1.18, // Calculate total (subtotal + tax)
+    timestamp: new Date().toISOString(), // Add timestamp in ISO format
   };
 
-  // Convert order data to JSON string
+  // Convert order data to a compact string format
   const orderDataString = JSON.stringify(orderData);
 
   // Clear previous QR code
