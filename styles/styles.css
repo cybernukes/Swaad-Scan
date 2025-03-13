@@ -247,6 +247,7 @@ h1 {
 
 .cart-container.active {
   bottom: 0;
+  overflow-y: auto;
 }
 
 .cart-header {
@@ -278,6 +279,7 @@ h1 {
 }
 
 .cart-items {
+  margin-top: 50px;
   flex: 1; /* Take available space */
   padding: 10px;
   max-height: calc(80vh - 180px); /* Subtract header and footer heights */
