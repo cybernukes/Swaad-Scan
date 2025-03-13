@@ -347,7 +347,7 @@ function updateCartUI() {
   });
 
   // Calculate tax (GST)
-  const tax = subtotal * 0; // 18% GST
+  const tax = subtotal * 0.18; // 18% GST
   const total = subtotal + tax;
 
   // Update totals
