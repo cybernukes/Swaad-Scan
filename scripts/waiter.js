@@ -251,7 +251,7 @@ function updateOrderDisplay() {
   orderItems.innerHTML = html;
 
   // Calculate totals
-  const tax = subtotal * 0.05; // 5% tax
+  const tax = subtotal * 0.18; // 18% tax
   const total = subtotal + tax;
 
   subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
@@ -332,7 +332,7 @@ function generateBill() {
     subtotal += item.price * item.quantity;
   });
 
-  const tax = subtotal * 0.05; // 5% tax
+  const tax = subtotal * 0.18; // 18% tax
   const total = subtotal + tax;
 
   // Create a printable bill
@@ -561,7 +561,7 @@ function sendBillToWhatsApp(order, subtotal, tax, total, tableNumber) {
 
   billMessage += "--------------------------------\n";
   billMessage += `Subtotal: ₹${subtotal.toFixed(2)}\n`;
-  billMessage += `GST (5%): ₹${tax.toFixed(2)}\n`;
+  billMessage += `GST (18%): ₹${tax.toFixed(2)}\n`;
   billMessage += `*Total Amount: ₹${total.toFixed(2)}*\n\n`;
   billMessage += "Thank you for dining with us! 🍽️";
 
